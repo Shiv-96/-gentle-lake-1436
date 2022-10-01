@@ -1,0 +1,153 @@
+package com.shiv.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.shiv.beans.Engineer;
+import com.shiv.exception.EngineerException;
+import com.shiv.utility.DBUtill;
+
+public class EngineerDaoImpl implements EngineerDao {
+
+	@Override
+	public String registerEngineer(Engineer engineer) {
+		
+		String message = "Not Registered";
+		
+		try (Connection conn = DBUtill.provideConnection()){
+			
+			PreparedStatement ps = conn.prepareStatement("insert into engineerlogin (name, username, password, category) values(?, ?, ?, ?)");
+			
+			ps.setString(1, engineer.getName());
+			ps.setString(2, engineer.getUsername());
+			ps.setString(3, engineer.getPassword());
+			ps.setString(4, engineer.getCategory());
+			
+			int x = ps.executeUpdate();
+			
+			if(x > 0) {
+				message = "Engineer Added in the System";
+			}
+			
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+		
+		
+		
+		
+		return message;
+		
+		
+	}
+
+	@Override
+	public List<Engineer> getAllEngineer() throws EngineerException {
+		
+		List<Engineer> engineers = new ArrayList<>();
+		
+		try (Connection conn = DBUtill.provideConnection()) {
+			
+			PreparedStatement ps = conn.prepareStatement("select * from engineerLogin");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {
+				String n = rs.getString("name");
+				String un = rs.getString("username");
+				String pa = rs.getString("password");
+				String ca = rs.getString("category");
+				String iassigned = rs.getString("raisedProblem");
+				
+				Engineer engineer = new Engineer(n, un, pa, ca, iassigned);
+				engineers.add(engineer);
+			}
+			
+			
+		} catch (SQLException e) {
+			throw new EngineerException(e.getMessage());
+		}
+		
+		if(engineers.size() == 0) {
+			throw new EngineerException("No Engineer found.....");
+		}
+		
+		
+		return engineers;
+		
+	}
+
+	@Override
+	public boolean deleteEngineer(int id) throws EngineerException {
+		boolean status = false;
+		
+		
+		
+		try (Connection conn = DBUtill.provideConnection()){
+			PreparedStatement ps = conn.prepareStatement("delete from engineerLogin where id = ?");
+			ps.setInt(1, id);
+			
+			int rs = ps.executeUpdate();
+			
+			if(rs > 0) {
+				status = true;
+			}
+			else {
+				status = false;
+			}
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			throw new EngineerException(e.getMessage());
+		}
+		
+		
+		
+		return status;
+	}
+
+	@Override
+	public List<Engineer> getAssignedProblem() throws EngineerException {
+		
+		List<Engineer> engineers = new ArrayList<>();
+		
+		try (Connection conn = DBUtill.provideConnection()) {
+			
+			PreparedStatement ps = conn.prepareStatement("select * from engineerLogin where raisedProblem != 'Not Assign'");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				String n = rs.getString("name");
+				String uname = rs.getString("username");
+				String pass = rs.getString("password");
+				String ca = rs.getString("category");
+				String isAssigned = rs.getString("raisedProblem");
+				
+				Engineer engineer = new Engineer(n, uname, pass, ca, isAssigned);
+				
+				engineers.add(engineer);
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			throw new EngineerException(e.getMessage());
+		}
+		
+		if(engineers.size() == 0) {
+			
+			throw new EngineerException("Not any Engineer is assigned to any problem");
+			
+		}
+		
+		
+		return engineers;
+	}
+
+}
