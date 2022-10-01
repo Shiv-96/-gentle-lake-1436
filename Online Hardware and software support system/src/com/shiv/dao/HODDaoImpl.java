@@ -56,7 +56,7 @@ public class HODDaoImpl implements HODDao {
 			
 			if(rs.next()) {
 				String na = rs.getString("name");
-				String uname = rs.getString("username");
+				String uname = rs.getString("usename");
 				String pass = rs.getString("password");
 				
 				hod = new HOD(na, uname, pass);

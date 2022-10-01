@@ -7,7 +7,7 @@ import com.shiv.dao.HODDaoImpl;
 
 public class GettingDetailsHOD {
 
-	public static void main(String[] args) {
+	public void register() {
 		// TODO Auto-generated method stub
 
 		Scanner sc = new Scanner(System.in);
