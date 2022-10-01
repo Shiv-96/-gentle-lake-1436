@@ -57,6 +57,12 @@ public class Start {
 						RaisedProblem rp = new RaisedProblem();
 						rp.raisedProblemForEngineer();
 					}
+					else if(y == 5) {
+						
+					}
+					else if(y == 6) {
+						break;
+					}
 				}
 			}
 			else if(c == 2) {
