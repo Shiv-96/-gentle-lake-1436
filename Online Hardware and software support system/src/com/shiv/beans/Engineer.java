@@ -2,6 +2,7 @@ package com.shiv.beans;
 
 public class Engineer {
 
+	private int id;
 	private String name;
 	private String username;
 	private String password;
@@ -28,6 +29,22 @@ public class Engineer {
 		this.password = password;
 		this.category = category;
 		this.isAssigned = isAssigned;
+	}
+
+	
+	
+	public Engineer(int id, String name, String username, String password, String category, String isAssigned) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.category = category;
+		this.isAssigned = isAssigned;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getName() {
