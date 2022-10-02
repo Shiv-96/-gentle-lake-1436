@@ -9,7 +9,7 @@ import com.shiv.exception.HODException;
 
 public class Login {
 
-	public void login() {
+	public boolean login() {
 		// TODO Auto-generated method stub
 
 		Scanner sc = new Scanner(System.in);
@@ -26,10 +26,13 @@ public class Login {
 			HOD hod  = dao.loginHOD(uname, pass);
 			System.out.println("Welcome "+hod.getName());
 			System.out.println("==================");
+			return true;
 		} catch (HODException e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
 		}
+		
+		return false;
 		
 	}
 

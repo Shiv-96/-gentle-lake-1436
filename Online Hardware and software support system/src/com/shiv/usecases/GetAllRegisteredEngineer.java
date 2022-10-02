@@ -19,6 +19,7 @@ public class GetAllRegisteredEngineer {
 			
 			engineers.forEach(e ->{
 				
+				System.out.println("Engineer's Id : "+e.getId());
 				System.out.println("Engineer's Name : "+e.getName());
 				System.out.println("Engineer's username : "+e.getUsername());
 				System.out.println("Engineer's Password : "+e.getPassword());
